@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+android:clipToPadding="false"
+    tools:context=".ActivityHome" >
+    
+    <ScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#DCE1E3"
+        android:clipChildren="false"
+		android:clipToPadding="false"
+        >
+         <LinearLayout 
+             android:layout_width="fill_parent"
+             android:layout_height="match_parent"
+             android:orientation="horizontal"
+             android:clipChildren="false"
+			 android:clipToPadding="false"
+             >
+              <LinearLayout 
+                  android:id="@+id/llLeftHolder"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:paddingLeft="8dp"
+             android:paddingRight="4dp"
+             android:clipChildren="false"
+    		 android:clipToPadding="false"
+             android:background="@android:color/transparent"
+             android:orientation="vertical"
+             >
+             
+             
+         </LinearLayout> 
+         <LinearLayout 
+             android:id="@+id/llRightHolder"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:clipChildren="false"
+    		 android:clipToPadding="false"
+             android:orientation="vertical"
+             android:paddingRight="8dp"
+             android:paddingLeft="4dp"
+             android:background="@android:color/transparent"
+             android:layout_weight="1"
+             >
+             
+             
+         </LinearLayout>
+             
+         </LinearLayout>
+        
+        
+    </ScrollView>
+
+   
+
+</LinearLayout>
