@@ -4,12 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.WeakHashMap;
 
-import com.sagar.localdata.NotesDB;
-
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.sagar.localdata.NotesDB;
 
 public class ActivityHome extends Activity {
 
@@ -37,6 +32,9 @@ public class ActivityHome extends Activity {
 	private LinearLayout mRightHolder;
 	private LayoutInflater mInflater;
 	
+	private HashMap<Long, Integer> xCoordinates = new HashMap<Long, Integer>();
+	private HashMap<Long, Integer> yCoordinates = new HashMap<Long, Integer>();
+	private int counter = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +42,24 @@ public class ActivityHome extends Activity {
 		setContentView(R.layout.activity_home);
 		mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		initViews();
+		
+		if(savedInstanceState != null)
+		{
+			xCoordinates = (HashMap<Long, Integer>) savedInstanceState.getSerializable("xMap");
+			yCoordinates = (HashMap<Long, Integer>) savedInstanceState.getSerializable("yMap");
+		}
+		
 		fetchNoteData();
 	}
+	
+	@Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+	super.onSaveInstanceState(outState);
+
+	outState.putSerializable("xMap", xCoordinates);
+	outState.putSerializable("yMap", yCoordinates);
+    }
 //
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,10 +123,8 @@ public class ActivityHome extends Activity {
 		provider.execute("");
 	}
 	
-	private int counter = 0;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, HH:mm:ss");
-	private HashMap<Long, Integer> xCoordinates = new HashMap<Long, Integer>();
-	private HashMap<Long, Integer> yCoordinates = new HashMap<Long, Integer>();
+	
 	
 	private void addNoteToView(final NoteObj note)
 	{
@@ -150,8 +162,6 @@ public class ActivityHome extends Activity {
 		        location[0] = ((Float)v.getX()).intValue();
 		        location[1] = ((Float)v.getY()).intValue();
 
-//		        v.getLocationOnScreen(location); 
-		        
 		        if(xCoordinates.containsKey(note.getNoteId()))
 				{
 		        	int xFrom = 0;
@@ -179,14 +189,6 @@ public class ActivityHome extends Activity {
 		        			0);
 		        	transAnimation.setDuration(1000);
 		        	v.startAnimation(transAnimation);
-//		        	ObjectAnimator animX = ObjectAnimator.ofFloat(v, "x",xCoordinates.get(note.getNoteId()),  location[0]);
-//		        	ObjectAnimator animY = ObjectAnimator.ofFloat(v, "y", yCoordinates.get(note.getNoteId()),location[1]);
-//		        	AnimatorSet animSetXY = new AnimatorSet();
-//		        	animX.setDuration(8000);
-//		        	animY.setDuration(8000);
-//		        	animSetXY.playTogether(animX, animY);
-//		        	animSetXY.start();
-		        	
 		        	xCoordinates.put(note.getNoteId(), location[0]);
 					yCoordinates.put(note.getNoteId(), location[1]);
 //					v.
